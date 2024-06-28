@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendship Points Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Friendship Points Tracker</h1>
+        <div class="input-group">
+            <input type="text" id="friendName" placeholder="Friend's Name">
+            <button onclick="addFriend()">Add Friend</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Friend's Name</th>
+                    <th>Friendship Points</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="friendsTable">
+                <!-- Friend rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
