@@ -2,6 +2,7 @@ let friends = [];
 let historyLog = [];
 let currentPage = 1;
 const rowsPerPage = document.getElementById('rowsPerPage').value;
+let currentSort = { column: '', order: 'asc' };
 
 // Function to add a friend
 function addFriend() {
@@ -46,9 +47,20 @@ function updatePointsManually(index, newValue) {
     saveDataToLocal();
 }
 
+// Function to sort the table
+function sortTable(column) {
+    const order = currentSort.column === column && currentSort.order === 'asc' ? 'desc' : 'asc';
+    friends.sort((a, b) => {
+        if (a[column] < b[column]) return order === 'asc' ? -1 : 1;
+        if (a[column] > b[column]) return order === 'asc' ? 1 : -1;
+        return 0;
+    });
+    currentSort = { column, order };
+    updateTable();
+}
+
 // Function to update the table with friends data
 function updateTable() {
-    friends.sort((a, b) => b.points - a.points);
     const tableBody = document.getElementById('friendsTable');
     tableBody.innerHTML = '';
     const start = (currentPage - 1) * rowsPerPage;
@@ -195,3 +207,95 @@ document.getElementById('fileInput').addEventListener('change', importData);
 
 // Initial load of data when the page is loaded
 loadDataFromLocal();
+
+// Function to sort the table by column
+function sortTable(column) {
+    const order = currentSort.column === column && currentSort.order === 'asc' ? 'desc' : 'asc';
+    friends.sort((a, b) => {
+        if (column === 'name') {
+            return order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else {
+            return order === 'asc' ? a.points - b.points : b.points - a.points;
+        }
+    });
+    currentSort = { column, order };
+    updateTable();
+}
+
+// Function to filter the table by name
+function filterTable() {
+    const filterValue = document.getElementById('filterInput').value.trim().toLowerCase();
+    const filteredFriends = friends.filter(friend => friend.name.toLowerCase().includes(filterValue));
+    updateTableWithFilter(filteredFriends);
+}
+
+// Function to update the table with filtered data
+function updateTableWithFilter(filteredFriends) {
+    const tableBody = document.getElementById('friendsTable');
+    tableBody.innerHTML = '';
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedFriends = filteredFriends.slice(start, end);
+
+    paginatedFriends.forEach((friend, index) => {
+        const row = `<tr>
+                        <td>${friend.name}</td>
+                        <td><input type="number" value="${friend.points}" onchange="updatePointsManually(${friends.indexOf(friend)}, parseInt(this.value))"></td>
+                        <td>
+                            <button class="action-button" onclick="updatePoints(${friends.indexOf(friend)}, 1)">+1</button>
+                            <button class="action-button" onclick="updatePoints(${friends.indexOf(friend)}, 5)">+5</button>
+                            <button class="action-button" onclick="updatePoints(${friends.indexOf(friend)}, -1)">-1</button>
+                            <button class="action-button" onclick="updatePoints(${friends.indexOf(friend)}, -5)">-5</button>
+                            <button class="remove-button" onclick="removeFriend(${friends.indexOf(friend)})">Remove</button>
+                        </td>
+                    </tr>`;
+        tableBody.innerHTML += row;
+    });
+
+    document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${Math.ceil(filteredFriends.length / rowsPerPage)}`;
+}
+
+// Function to handle pagination
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+}
+
+function nextPage() {
+    if (currentPage * rowsPerPage < friends.length) {
+        currentPage++;
+        updateTable();
+    }
+}
+
+// Function to update the history log
+function updateHistory() {
+    const historyList = document.getElementById('historyLog');
+    historyList.innerHTML = '';
+    historyLog.forEach(entry => {
+        const listItem = `<li>${entry}</li>`;
+        historyList.innerHTML += listItem;
+    });
+}
+
+// Function to save data to local storage
+function saveDataToLocal() {
+    localStorage.setItem('friendsData', JSON.stringify(friends));
+    localStorage.setItem('historyLog', JSON.stringify(historyLog));
+}
+
+// Function to load data from local storage
+function loadDataFromLocal() {
+    const friendsData = localStorage.getItem('friendsData');
+    const historyData = localStorage.getItem('historyLog');
+    if (friendsData) {
+        friends = JSON.parse(friendsData);
+        updateTable();
+    }
+    if (historyData) {
+        historyLog = JSON.parse(historyData);
+        updateHistory();
+    }
+}

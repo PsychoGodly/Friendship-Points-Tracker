@@ -145,6 +145,11 @@ th, td {
 th {
     background-color: #f2f2f2;
     font-size: 16px;
+    cursor: pointer;
+}
+
+th:hover {
+    background-color: #ddd;
 }
 
 td {
@@ -197,15 +202,4 @@ td {
     margin: 0;
     height: calc(100vh - 200px);
     overflow-y: auto;
-}
-
-.history-log li {
-    font-size: 14px;
-    line-height: 1.6;
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.history-log li:last-child {
-    border-bottom: none;
 }
