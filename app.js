@@ -95,5 +95,47 @@ function loadDataFromLocal() {
     }
 }
 
+// Function to export data as a JSON file
+function exportData() {
+    const data = {
+        friends: friends,
+        historyLog: historyLog
+    };
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'friendship_data.json';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+}
+
+// Function to import data from a JSON file
+function importData(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const contents = e.target.result;
+        const data = JSON.parse(contents);
+        if (data && data.friends && data.historyLog) {
+            friends = data.friends;
+            historyLog = data.historyLog;
+            updateTable();
+            updateHistory();
+            saveDataToLocal();
+        } else {
+            alert('Invalid file format. Please select a valid JSON file.');
+        }
+    };
+    reader.readAsText(file);
+}
+
+// Event listener for file input change
+document.getElementById('fileInput').addEventListener('change', importData);
+
 // Initial load of data when the page is loaded
 loadDataFromLocal();
