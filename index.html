@@ -11,6 +11,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
         th, td {
             border: 1px solid #ddd;
@@ -20,12 +21,18 @@
             background-color: #f2f2f2;
         }
         .container {
-            width: 50%;
+            width: 60%;
             margin: 0 auto;
             padding: 20px;
         }
         .input-group {
             margin-bottom: 10px;
+        }
+        #history {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -48,6 +55,12 @@
                 <!-- Friend rows will be added here -->
             </tbody>
         </table>
+        <div id="history">
+            <h2>History Log</h2>
+            <ul id="historyLog">
+                <!-- History log entries will be added here -->
+            </ul>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
