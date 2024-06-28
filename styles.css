@@ -68,16 +68,10 @@ body {
     flex: 1;
 }
 
-.sidebar {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-left: 1px solid #ddd;
-    min-width: 300px;
-}
-
 .table-wrapper {
     flex: 1;
     overflow-x: auto;
+    margin-right: 20px; /* Added margin for separation */
 }
 
 table {
@@ -120,10 +114,24 @@ td {
     background-color: #0056b3;
 }
 
+.sidebar {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    min-width: 300px;
+}
+
 .history-log {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.history-log h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
 }
 
 .history-log li {
