@@ -4,55 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friendship Points Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-        .content {
-            flex: 1;
-            margin-right: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .input-group {
-            margin-bottom: 10px;
-        }
-        #history {
-            width: 300px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="content">
+        <div class="header">
             <h1>Friendship Points Tracker</h1>
             <div class="input-group">
-                <input type="text" id="friendName" placeholder="Friend's Name">
+                <input type="text" id="friendName" placeholder="Enter Friend's Name">
                 <button onclick="addFriend()">Add Friend</button>
             </div>
+        </div>
+        <div class="content">
             <table>
                 <thead>
                     <tr>
                         <th>Friend's Name</th>
-                        <th>Friendship Points</th>
+                        <th>Points</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -61,11 +29,13 @@
                 </tbody>
             </table>
         </div>
-        <div id="history">
-            <h2>History Log</h2>
-            <ul id="historyLog">
-                <!-- History log entries will be added here -->
-            </ul>
+        <div class="sidebar">
+            <div id="history">
+                <h2>History Log</h2>
+                <ul id="historyLog">
+                    <!-- History log entries will be added here -->
+                </ul>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>
