@@ -53,12 +53,12 @@ function updateTable() {
         const row = `<tr>
                         <td>${friend.name}</td>
                         <td><input type="number" value="${friend.points}" onchange="updatePointsManually(${index}, parseInt(this.value))"></td>
-                        <td>
-                            <button onclick="updatePoints(${index}, 1)">+1</button>
-                            <button onclick="updatePoints(${index}, 5)">+5</button>
-                            <button onclick="updatePoints(${index}, -1)">-1</button>
-                            <button onclick="updatePoints(${index}, -5)">-5</button>
-                            <button onclick="removeFriend(${index})">Remove</button>
+                        <td class="actions">
+                            <button class="btn btn-positive" onclick="updatePoints(${index}, 1)">+1</button>
+                            <button class="btn btn-positive" onclick="updatePoints(${index}, 5)">+5</button>
+                            <button class="btn btn-negative" onclick="updatePoints(${index}, -1)">-1</button>
+                            <button class="btn btn-negative" onclick="updatePoints(${index}, -5)">-5</button>
+                            <button class="btn btn-remove" onclick="removeFriend(${index})">Remove</button>
                         </td>
                     </tr>`;
         tableBody.innerHTML += row;

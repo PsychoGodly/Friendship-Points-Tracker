@@ -110,6 +110,9 @@ td {
     border: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .actions button:hover {
@@ -130,6 +133,18 @@ td {
 
 .actions .btn-negative:hover {
     background-color: #c82333;
+}
+
+.actions .btn-remove {
+    background-color: #6c757d;
+}
+
+.actions .btn-remove:hover {
+    background-color: #5a6268;
+}
+
+.actions button i {
+    margin-right: 5px;
 }
 
 .sidebar {
