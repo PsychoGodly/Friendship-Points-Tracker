@@ -1,5 +1,7 @@
 let friends = [];
 let historyLog = [];
+let currentPage = 1;
+const rowsPerPage = document.getElementById('rowsPerPage').value;
 
 // Function to add a friend
 function addFriend() {
@@ -49,20 +51,74 @@ function updateTable() {
     friends.sort((a, b) => b.points - a.points);
     const tableBody = document.getElementById('friendsTable');
     tableBody.innerHTML = '';
-    friends.forEach((friend, index) => {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedFriends = friends.slice(start, end);
+
+    paginatedFriends.forEach((friend, index) => {
         const row = `<tr>
                         <td>${friend.name}</td>
-                        <td><input type="number" value="${friend.points}" onchange="updatePointsManually(${index}, parseInt(this.value))"></td>
-                        <td class="actions">
-                            <button class="btn btn-positive" onclick="updatePoints(${index}, 1)">+1</button>
-                            <button class="btn btn-positive" onclick="updatePoints(${index}, 5)">+5</button>
-                            <button class="btn btn-negative" onclick="updatePoints(${index}, -1)">-1</button>
-                            <button class="btn btn-negative" onclick="updatePoints(${index}, -5)">-5</button>
-                            <button class="btn btn-remove" onclick="removeFriend(${index})">Remove</button>
+                        <td><input type="number" value="${friend.points}" onchange="updatePointsManually(${start + index}, parseInt(this.value))"></td>
+                        <td>
+                            <button class="action-button" onclick="updatePoints(${start + index}, 1)">+1</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, 5)">+5</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, -1)">-1</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, -5)">-5</button>
+                            <button class="remove-button" onclick="removeFriend(${start + index})">Remove</button>
                         </td>
                     </tr>`;
         tableBody.innerHTML += row;
     });
+
+    document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${Math.ceil(friends.length / rowsPerPage)}`;
+}
+
+// Function to filter the table
+function filterTable() {
+    const filterValue = document.getElementById('filterInput').value.toLowerCase();
+    const filteredFriends = friends.filter(friend => friend.name.toLowerCase().includes(filterValue));
+    currentPage = 1; // Reset to first page on filter change
+    updateTableWithFilter(filteredFriends);
+}
+
+function updateTableWithFilter(filteredFriends) {
+    const tableBody = document.getElementById('friendsTable');
+    tableBody.innerHTML = '';
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedFriends = filteredFriends.slice(start, end);
+
+    paginatedFriends.forEach((friend, index) => {
+        const row = `<tr>
+                        <td>${friend.name}</td>
+                        <td><input type="number" value="${friend.points}" onchange="updatePointsManually(${start + index}, parseInt(this.value))"></td>
+                        <td>
+                            <button class="action-button" onclick="updatePoints(${start + index}, 1)">+1</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, 5)">+5</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, -1)">-1</button>
+                            <button class="action-button" onclick="updatePoints(${start + index}, -5)">-5</button>
+                            <button class="remove-button" onclick="removeFriend(${start + index})">Remove</button>
+                        </td>
+                    </tr>`;
+        tableBody.innerHTML += row;
+    });
+
+    document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${Math.ceil(filteredFriends.length / rowsPerPage)}`;
+}
+
+// Function to handle pagination
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+}
+
+function nextPage() {
+    if (currentPage * rowsPerPage < friends.length) {
+        currentPage++;
+        updateTable();
+    }
 }
 
 // Function to update the history log
