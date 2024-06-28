@@ -6,7 +6,9 @@ function addFriend() {
     if (friendName) {
         friends.push({ name: friendName, points: 0 });
         document.getElementById('friendName').value = '';
+        historyLog.push(`Added ${friendName}`);
         updateTable();
+        updateHistory();
     }
 }
 
